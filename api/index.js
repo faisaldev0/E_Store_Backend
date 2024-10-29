@@ -10,7 +10,7 @@ const fs = require("fs");
 
 // Use environment variables
 const port = process.env.PORT;
-const uploadDir = process.env.UPLOAD_DIR;
+const uploadDir = './';
 
 // Ensure the upload directory exists
 if (!fs.existsSync(uploadDir)) {
@@ -35,23 +35,23 @@ app.get("/", (req, res) => {
 const storage = multer.diskStorage({
   destination: uploadDir,
   filename: (req, file, cb) => {
-    cb(
-      null,
-      `${file.fieldname}_${Date.now()}${path.extname(file.originalname)}`
-    );
+    cb(null, `${file.fieldname}_${Date.now()}${path.extname(file.originalname)}`);
   },
 });
 
 const upload = multer({ storage: storage });
 
+// Set static folder to serve images
+app.use("/upload/images", express.static(uploadDir));
+
 // Creating Upload Endpoint for images
-app.use("/images", express.static(uploadDir));
 app.post("/upload", upload.single("product"), (req, res) => {
   res.json({
     success: 1,
-    image_url: `${process.env.FRONTEND_URL}/images/${req.file.filename}`,
+    image_url: `${process.env.BACKEND_URL}/images/${req.file.filename}`,
   });
 });
+
 
 // Schema for creating products
 const Product = mongoose.model("Product", {
