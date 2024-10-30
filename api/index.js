@@ -18,12 +18,12 @@ if (!fs.existsSync(uploadDir)) {
 }
 
 app.use(express.json());
-app.use(cors());
+app.use(cors({
+  origin: 'https://splendid-youtiao-de715c.netlify.app',
+}));
 
 // Database connection with mongoose
 mongoose.connect(process.env.MONGODB_URL, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true
 });
 
 // App Creation
