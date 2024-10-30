@@ -10,7 +10,7 @@ const fs = require("fs");
 
 // Use environment variables
 const port = process.env.PORT;
-const uploadDir = './';
+const uploadDir = './upload/images';
 
 // Ensure the upload directory exists
 if (!fs.existsSync(uploadDir)) {
